@@ -8,22 +8,16 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Getter
 @Setter
-@Document("TestStep")
-public class TestStep {
+@Document("TestResult")
+public class TestResult {
     @MongoId
     @Field
-    private String testStepId;
-    @Field
-    private int testStepNumber;
+    private String testResultId;
     @Field
     private String testId;
     @Field
-    private Action action;
+    private String date;
     @Field
-    private String testStepDescription;
-    @Field
-    private String value;
-    @Field
-    private Element element;
+    private String result;
 
 }

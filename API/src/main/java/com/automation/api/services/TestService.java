@@ -19,4 +19,8 @@ public class TestService {
     public Test addNewTest(Test test){
         return testRepo.save(test);
     }
+
+    public Test findTestByTestId(String testId){
+        return testRepo.findTestByTestId(testId);
+    }
 }

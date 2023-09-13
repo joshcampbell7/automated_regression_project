@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TestRepo extends MongoRepository<Test,String> {
     List<Test> getTestByUserId(String userId);
+    Test findTestByTestId(String testId);
 }
