@@ -1,11 +1,11 @@
 package com.automation.api.controllers;
 
 import com.automation.api.automation_tool.KeywordDriver;
-import com.automation.api.models.Test;
-import com.automation.api.models.TestStep;
-import com.automation.api.models.User;
+import com.automation.api.models.*;
 import com.automation.api.repos.TestStepRepo;
+import com.automation.api.services.TestResultService;
 import com.automation.api.services.TestService;
+import com.automation.api.services.TestStepResultService;
 import com.automation.api.services.TestStepService;
 import com.automation.api.utils.DriverUtils;
 import com.automation.api.utils.Utils;
@@ -30,6 +30,11 @@ public class TestController {
     Utils utils;
     @Autowired
     DriverUtils driverUtils;
+    @Autowired
+    TestResultService testResultService;
+    @Autowired
+    TestStepResultService testStepResultService;
+
 
     public KeywordDriver keywordDriver;
 
@@ -45,36 +50,47 @@ public class TestController {
     }
 
     @PostMapping(value = "/api/test/run/{testId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Map<String,Object>> addTest(@PathVariable String testId) {
-        Map<String,Object> response = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> addTest(@PathVariable String testId) {
+        Map<String, Object> response = new HashMap<>();
         Test test = testService.findTestByTestId(testId);
-        if(test == null){
-            response.put("error","not a valid test");
+        if (test == null) {
+            response.put("error", "not a valid test");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
         // create chrome driver and start selenium recording
         WebDriver driver = driverUtils.initDriver();
-        if(driver==null){
-            response.put("error","webdriver is null");
+        if (driver == null) {
+            response.put("error", "webdriver is null");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
 
         // code needed to getTestSteps via testId in a list. Go through the list and complete the action.
 
         List<TestStep> testSteps = testStepService.findTestStepsBytestId(testId);
-        if(testSteps == null){
-            response.put("error","cant run test as there are no test steps");
+        if (testSteps == null) {
+            response.put("error", "cant run test as there are no test steps");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
         }
+        TestResult testResult = new TestResult(testId, null, true);
+        Boolean testFailed = false;
 
-        for(TestStep step : testSteps){
-            // call the Keyword driver class
-            keywordDriver.performAction(step,driver);
+        //loops through each step and does step.
+        for (TestStep step : testSteps) {
+            TestStepResult result = keywordDriver.performAction(step, driver);
+            if (result.getResult() == false && testFailed == false) {
+                testResult.setResult(false);
+            }
+            result.setTestStepId(step.getTestStepId());
+            result.setTestResultId(testResult.getTestResultId());
+            testStepResultService.saveTestStepResult(result);
         }
+        testResult.setDate(utils.getTodayDate());
+        testResult = testResultService.saveTestResult(testResult);
 
         // code needed to get the id of the saved result and then return it in the response so that the user can view test results
         //code needed to stop recording and save it somewhere?
         driver.close();
+        response.put("TestResultId",testResult.getTestResultId());
         return ResponseEntity.ok().body(response);
     }
 

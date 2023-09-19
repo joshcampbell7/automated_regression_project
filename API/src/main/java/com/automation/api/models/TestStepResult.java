@@ -20,6 +20,6 @@ public class TestStepResult {
     @Field
     private String reasonForFail;
     @Field
-    private String result;
+    private Boolean result;
 
 }
