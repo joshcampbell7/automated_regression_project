@@ -1,0 +1,61 @@
+/* Define the layout structure */
+.page {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100%;
+}
+
+.left-section,
+.middle-section,
+.right-section {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid blue;
+}
+
+/* Center the content within the middle section */
+.center-container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.test-step {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid red;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    width: 500px;
+
+}
+
+.test-step-section-2 {
+    display: flex;
+    flex-direction: column;
+    /* Items in a vertical line */
+}
+
+.test-step-section-3 {
+    display: flex;
+    flex-direction: column;
+    /* Items in a vertical line */
+    align-items: flex-end;
+    /* Align items to the right */
+}
+
+/* Style the buttons */
+.test-step-section-3 button {
+    margin-top: 5px;
+}
+
+.action-select {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.element-select {
+    width: 100%;
+}
