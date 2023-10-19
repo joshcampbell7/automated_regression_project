@@ -18,9 +18,7 @@ public class Action {
     @Field
     private String actionDescription;
     @Field
-    private String actionInput;
-    @Field
-    private ActionType actionType;
+    private String actionType;
 
 
 }

@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Document("Test")
@@ -21,5 +23,7 @@ public class Test {
     private String dateCreated;
     @Field
     private String userId;
+    @Field
+    private List<TestStep> testSteps;
 
 }

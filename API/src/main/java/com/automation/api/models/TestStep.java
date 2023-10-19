@@ -18,12 +18,12 @@ public class TestStep {
     @Field
     private String testId;
     @Field
-    private Action action;
+    private String actionId;
     @Field
     private String testStepDescription;
     @Field
     private String value;
     @Field
-    private Element element;
+    private String elementId;
 
 }

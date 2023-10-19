@@ -8,4 +8,5 @@ import java.util.List;
 public interface TestStepRepo extends MongoRepository<TestStep,String> {
 
     List<TestStep> findByTestIdOrderByTestStepNumberAsc(String testId);
+    void deleteTestStepByTestStepId(String testStepId);
 }

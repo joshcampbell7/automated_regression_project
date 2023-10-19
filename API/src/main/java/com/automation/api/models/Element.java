@@ -19,5 +19,7 @@ public class Element {
     private String elementValue;
     @Field
     private String elementType;
+    @Field
+    private String userId;
 
 }
